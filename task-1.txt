@@ -1,4 +1,59 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541008
+AD-SOYAD:Cumali Bilgiç
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+START HIGH_SCORE_ALGORITHM
+
+    // Oyun devam ettiği sürece ana döngüyü tekrarla
+    WHILE (GameIsRunning == TRUE) DO
+
+        // 1. Durum Kontrolü: Engellerden Kaçınma (Dodging) ve Kombo Zinciri
+        IF (ObstacleDodged == TRUE) THEN
+            Score = Score + 100         // Normal skor artışı
+            ComboCounter = ComboCounter + 1
+            ObstacleDodged = FALSE // Kontrolü sıfırla
+
+            // Kombo Sınırı Kontrolü (Combo Limit Check)
+            IF (ComboCounter >= ComboLimit) THEN
+                Score = Score + (500 * ComboCounter) // Büyük Kombo Bonusu
+                ComboCounter = 0                   // Kombo sayacını sıfırla
+                PRINT_TO_SCREEN("PERFECT COMBO! HUGE BONUS EARNED!")
+            END IF
+        ELSE
+            ComboCounter = 0           // Başarısızlık durumunda kombo sıfırlanır
+        END IF
+
+        // 2. Durum Kontrolü: Bonus Eşyaları Toplama (Bonus Collection)
+        IF (BonusCollected == TRUE) THEN
+            Score = Score + 5000         // Yüksek bonus puanı
+            BonusCollected = FALSE     // Kontrolü sıfırla
+            PRINT_TO_SCREEN("BONUS COLLECTED! MAX POINTS!")
+        END IF
+
+        // 3. Koşullu Durum: Hata Yapma (Can Kaybı - Life Loss)
+        IF (Player_Made_Mistake == TRUE) THEN
+            Can = Can - 1
+            ComboCounter = 0 // Hata yapınca kombo her zaman sıfırlanır
+            
+            // Can bitişi kontrolü (Game Over Check)
+            IF (Can <= 0) THEN
+                GameIsRunning = FALSE
+                PRINT_TO_SCREEN("GAME OVER! FINAL SCORE: " + Score)
+            ELSE
+                PRINT_TO_SCREEN("MISTAKE! 1 LIFE LEFT. BE CAREFUL!")
+            END IF
+        END IF
+
+        // 4. İşlem: Sürekli Oynama Puanı (Base Score)
+        Score = Score + 10 // Oyun devam ettiği için temel puan artışı
+
+        // Sonraki oyun karesine geçmek için bekle (Wait for next frame)
+        WAIT(1/60 Second) 
+
+    LOOP
+
+    // Oyun bittiğinde yapılacak işlemler
+    SAVE_HIGH_SCORE(Score)
+
+END HIGH_SCORE_ALGORITHM
