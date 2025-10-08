@@ -1,4 +1,38 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541008
+AD-SOYAD:Cumali Bilgiç
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+IDEAL_KAHVE_DEMLEME_ALGORITMASI
+
+// ==========================================================
+// ANA FONKSİYON: İdeal kahve demleme sürecini yönetir.
+// ==========================================================
+FONKSIYON IdealKahveDemle():
+
+    // GİRDİLER (Kullanıcıdan alınır veya varsayılan olarak ayarlanır)
+    hedef_icecek_miktari = 300 // ml
+    demleme_yontemi = "V60"
+    kahve_profili = "orta kavrum"
+    
+    // 1. Adım: HESAPLAMALAR
+    oran = 16
+    kahve_gram = hedef_icecek_miktari / oran
+    toplam_su_gram = kahve_gram * oran
+
+    // Koşullu olarak parametreleri belirle
+    EĞER kahve_profili == "açık kavrum":
+        hedef_sicaklik = 95
+    DEĞİLSE EĞER kahve_profili == "orta kavrum":
+        hedef_sicaklik = 93
+    DEĞİLSE: // koyu kavrum
+        hedef_sicaklik = 90
+    
+    EĞER demleme_yontemi == "V60":
+        ogutme_boyutu = "orta-ince"
+    DEĞİLSE EĞER demleme_yontemi == "Chemex":
+        ogutme_boyutu = "orta-kalın"
+    DEĞİLSE:
+        ogutme_boyutu = "orta"
+
+    // 2. Adım ve 3. Adım: F
