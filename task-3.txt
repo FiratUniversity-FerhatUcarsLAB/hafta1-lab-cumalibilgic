@@ -1,4 +1,39 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541008
+AD-SOYAD:Cumali Bilgiç
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+SINIF_NOTLARINI_EN_YUKSEKTEN_EN_DUSUGE_SIRALAMA_ALGORITMASI
+
+// Ana fonksiyon: Bir not listesini en yüksekten en düşüğe sıralar.
+FONKSIYON SecmeliSiralama(notlar):
+
+    // Listenin eleman sayısını al.
+    n = notlar'ın uzunluğu
+
+    // 1. Adım: Listenin başından sondan bir öncekine kadar giden dış döngü.
+    // i, her adımda doğru notun yerleştirileceği konumu temsil eder.
+    DÖNGÜ i = 0'DAN n-2'YE KADAR:
+
+        // 2. Adım: Başlangıçta, en yüksek notun mevcut konumda olduğunu varsay.
+        en_yuksek_indeksi = i
+
+        // 3. Adım: Listenin geri kalanında gerçek en yüksek notu bulmak için iç döngü.
+        // j, taranan konumu temsil eder.
+        DÖNGÜ j = i + 1'DEN n-1'E KADAR:
+
+            // Koşul: Eğer daha yüksek bir not bulunursa...
+            EĞER notlar[j] > notlar[en_yuksek_indeksi]:
+                // ...yeni en yüksek notun konumunu güncelle.
+                en_yuksek_indeksi = j
+
+        // 4. Adım: Bulunan en yüksek notu, doğru yerine (i'nin olduğu yere) taşı.
+        // Bu işlem için notlar[i] ile notlar[en_yuksek_indeksi]'nin yerini değiştir.
+        // Geçici bir değişken kullanarak yer değiştirme (swap) işlemi yapılır.
+        gecici_degisken = notlar[i]
+        notlar[i] = notlar[en_yuksek_indeksi]
+        notlar[en_yuksek_indeksi] = gecici_degisken
+
+    // Döngü bittiğinde, liste sıralanmıştır.
+    GERİ DÖN notlar
+BİTİR FONKSIYON
