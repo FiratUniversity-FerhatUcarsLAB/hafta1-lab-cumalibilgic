@@ -1,4 +1,82 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541008
+AD-SOYAD:Cumali Bilgiç
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+RENKLERI_KARISTIRARAK_HEDEF_RENGI_ELDE_ETME_ALGORTIRMASI
+
+// ==========================================================
+// ANA FONKSİYON: Renkleri karıştırarak hedef rengi oluşturur.
+// ==========================================================
+FONKSIYON HedefRengiOlustur(hedef_renk, palet, tolerans, max_adim_sayisi):
+
+    // 1. Adım: Başlangıç durumunu ayarla.
+    mevcut_renk = (R:0, G:0, B:0) // Siyah ile başla
+    adim_sayisi = 0
+
+    // Ekrana başlangıç bilgisini yazdır.
+    YAZDIR "Hedef Renk: " + hedef_renk
+    YAZDIR "Başlangıç Rengi: " + mevcut_renk
+
+    // 2. Adım: Ana karıştırma döngüsü.
+    // Renk farkı toleranstan büyük olduğu ve maksimum adım sayısına ulaşılmadığı sürece devam et.
+    YAPILDIĞI SÜRECE RenkFarkiHesapla(mevcut_renk, hedef_renk) > tolerans VE adim_sayisi < max_adim_sayisi:
+        
+        // 3. Adım: En iyi adımı bulmak için değişkenleri hazırla.
+        en_iyi_adim_rengi = null
+        en_kucuk_fark = 1000000 // Çok büyük bir başlangıç değeri
+
+        // Palet üzerindeki her bir ana renk için iç döngü.
+        DÖNGÜ ana_renk IN palet:
+
+            // 4. Adım: Simülasyon ve karşılaştırma.
+            // Not: Renk değerleri 255'i geçmemeli.
+            gecici_R = min(255, mevcut_renk.R + ana_renk.R)
+            gecici_G = min(255, mevcut_renk.G + ana_renk.G)
+            gecici_B = min(255, mevcut_renk.B + ana_renk.B)
+            gecici_renk = (R:gecici_R, G:gecici_G, B:gecici_B)
+
+            yeni_fark = RenkFarkiHesapla(gecici_renk, hedef_renk)
+
+            // Koşul: Eğer bu simülasyon bizi hedefe daha çok yaklaştırıyorsa...
+            EĞER yeni_fark < en_kucuk_fark:
+                en_kucuk_fark = yeni_fark
+                en_iyi_adim_rengi = ana_renk
+        
+        // Koşul: Eğer eklenecek mantıklı bir renk bulunamadıysa döngüyü kır.
+        EĞER en_iyi_adim_rengi == null:
+            YAZDIR "İlerleme kaydedilemiyor, döngü sonlandırıldı."
+            KIR
+
+        // 5. Adım: Karışımı en iyi bulunan renkle güncelle.
+        mevcut_renk.R = min(255, mevcut_renk.R + en_iyi_adim_rengi.R)
+        mevcut_renk.G = min(255, mevcut_renk.G + en_iyi_adim_rengi.G)
+        mevcut_renk.B = min(255, mevcut_renk.B + en_iyi_adim_rengi.B)
+        
+        adim_sayisi = adim_sayisi + 1
+        YAZDIR adim_sayisi + ". Adım: " + en_iyi_adim_rengi + " eklendi. Yeni renk: " + mevcut_renk
+
+    YAZDIR "İşlem tamamlandı."
+    YAZDIR "Sonuç Renk: " + mevcut_renk
+    GERİ DÖN mevcut_renk
+
+BİTİR FONKSIYON
+
+
+// ==========================================================
+// YARDIMCI FONKSİYON: İki renk arasındaki Öklid mesafesini hesaplar.
+// ==========================================================
+FONKSIYON RenkFarkiHesapla(renk1, renk2):
+    // Renkler arasındaki fark, 3D uzaydaki iki nokta arasındaki mesafe gibi hesaplanır.
+    fark_R = renk1.R - renk2.R
+    fark_G = renk1.G - renk2.G
+    fark_B = renk1.B - renk2.B
+
+    // Pisagor teoremi: d^2 = x^2 + y^2 + z^2
+    mesafe_karesi = (fark_R * fark_R) + (fark_G * fark_G) + (fark_B * fark_B)
+    
+    // Gerçek mesafe için karekök alınır.
+    mesafe = KAREKÖK(mesafe_karesi)
+    
+    GERİ DÖN mesafe
+BİTİR FONKSIYON
