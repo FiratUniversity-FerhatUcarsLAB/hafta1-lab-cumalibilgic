@@ -1,4 +1,79 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541008
+AD-SOYAD:Cumali Bilgiç
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+
+SUDOKU_COZME_ALGORITMASI 
+
+// Ana fonksiyon: Sudoku bulmacasını çözmeye çalışır.
+FONKSIYON SudokuCoz(tahta):
+    // 1. Adım: Boş bir hücre bul.
+    bos_konum = BosHucreBul(tahta)
+
+    // Koşul: Eğer boş hücre yoksa, bulmaca çözülmüştür.
+    EĞER bos_konum == null:
+        GERİ DÖN true // Çözüldü
+
+    // Boş hücrenin satır ve sütun bilgilerini al.
+    satir = bos_konum.satir
+    sutun = bos_konum.sutun
+
+    // 2. Adım: 1'den 9'a kadar olan sayıları denemek için döngü.
+    DÖNGÜ denenen_sayi = 1'DEN 9'A KADAR:
+
+        // 3. Adım: Sayının geçerliliğini kontrol et.
+        EĞER GecerliMi(tahta, satir, sutun, denenen_sayi):
+
+            // 4. Adım: Sayı geçerliyse, tahtaya yerleştir (varsayım).
+            tahta[satir][sutun] = denenen_sayi
+
+            // Recursive olarak fonksiyonu tekrar çağır.
+            // Eğer bu varsayım çözüme götürürse, başarıyı geri döndür.
+            EĞER SudokuCoz(tahta) == true:
+                GERİ DÖN true
+
+            // 5. Adım: Eğer çözüm bulunamadıysa, varsayımı geri al (backtrack).
+            tahta[satir][sutun] = 0 // Hücreyi tekrar boşalt
+
+    // 6. Adım: Eğer 1-9 arasındaki hiçbir sayı bu hücre için çözüme götürmediyse,
+    // bu yolun yanlış olduğunu belirtmek için false döndür.
+    GERİ DÖN false
+BİTİR FONKSIYON
+
+
+// Yardımcı fonksiyon: Bir sayının belirli bir konuma yerleştirilip
+// yerleştirilemeyeceğini kontrol eder.
+FONKSIYON GecerliMi(tahta, satir, sutun, sayi):
+    // Satır kontrolü
+    DÖNGÜ s = 0'DAN 8'E KADAR:
+        EĞER tahta[satir][s] == sayi:
+            GERİ DÖN false
+
+    // Sütun kontrolü
+    DÖNGÜ r = 0'DAN 8'E KADAR:
+        EĞER tahta[r][sutun] == sayi:
+            GERİ DÖN false
+
+    // 3x3 kutu kontrolü
+    kutu_baslangic_satir = satir - (satir % 3)
+    kutu_baslangic_sutun = sutun - (sutun % 3)
+    DÖNGÜ r = 0'DAN 2'YE KADAR:
+        DÖNGÜ s = 0'DAN 2'YE KADAR:
+            EĞER tahta[r + kutu_baslangic_satir][s + kutu_baslangic_sutun] == sayi:
+                GERİ DÖN false
+
+    // Tüm kontrollerden geçtiyse, sayı geçerlidir.
+    GERİ DÖN true
+BİTİR FONKSIYON
+
+
+// Yardımcı fonksiyon: Tahtadaki ilk boş hücreyi bulur.
+FONKSIYON BosHucreBul(tahta):
+    DÖNGÜ satir = 0'DAN 8'E KADAR:
+        DÖNGÜ sutun = 0'DAN 8'E KADAR:
+            EĞER tahta[satir][sutun] == 0:
+                GERİ DÖN {satir, sutun} // Boş hücrenin konumunu döndür
+
+    // Hiç boş hücre bulunamazsa null döndür.
+    GERİ DÖN null
+BİTİR FONKSIYON
